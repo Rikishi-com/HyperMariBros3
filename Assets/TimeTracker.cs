@@ -1,18 +1,20 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement; // ← シーン操作に必要
 
 public class TimeTracker : MonoBehaviour
 {
     public TMP_Text timeText;
-    public TMP_Text bestTimeText; // ← 追加：ハイスコア用
+    public TMP_Text bestTimeText;
+    public TMP_Text goalMessageText;
 
     private float elapsedTime = 0f;
     private bool isTiming = true;
     private float bestTime;
+    private bool goalReached = false;
 
     void Start()
     {
-        // 初期化：保存されたハイスコアを取得（なければ大きな値を設定）
         bestTime = PlayerPrefs.GetFloat("BestTime", float.MaxValue);
 
         if (bestTime < float.MaxValue)
@@ -23,6 +25,8 @@ public class TimeTracker : MonoBehaviour
         {
             bestTimeText.text = "Best: --.--s";
         }
+
+        goalMessageText.text = "";
     }
 
     void Update()
@@ -36,12 +40,13 @@ public class TimeTracker : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Goal")
+        if (!goalReached && other.CompareTag("Goal"))
         {
+            goalReached = true;
             isTiming = false;
             timeText.text = "Goal! Time: " + elapsedTime.ToString("F2") + "s";
+            goalMessageText.text = "ゴールおめでとう！";
 
-            // ハイスコア更新判定
             if (elapsedTime < bestTime)
             {
                 bestTime = elapsedTime;
@@ -50,6 +55,14 @@ public class TimeTracker : MonoBehaviour
 
                 bestTimeText.text = "Best: " + bestTime.ToString("F2") + "s";
             }
+
+            // ✅ 3秒後に再スタート
+            Invoke("RestartScene", 3f);
         }
+    }
+
+    private void RestartScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
