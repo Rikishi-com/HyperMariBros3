@@ -25,21 +25,23 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
+    // 追加部分（Statusから移植）
+    private float baseSpeed;
+    private bool isSpeedBoosted = false;
+    private float boostDuration = 5f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-
         ReadyToJump = true;
+        baseSpeed = moveSpeed;  // 基本速度を保存
     }
 
     void Update()
     {
-        //地面と接しているかを判断
         grounded = Physics.Raycast(transform.position, Vector3.down, playerheight * 0.5f + 0.2f, Ground);
 
-        //接している場合は、設定した減速値を代入しプレイヤーを滑りにくくする
         if (grounded)
             rb.drag = groundDrag;
         else
@@ -49,16 +51,13 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
     }
 
-
     private void FixedUpdate()
     {
         movePlayer();
     }
 
-
     private void ProcessInput()
     {
-        //入力を取得
         HorizontalInput = Input.GetAxisRaw("Horizontal");
         VerticalInput = Input.GetAxisRaw("Vertical");
 
@@ -72,12 +71,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void movePlayer()
     {
-        //向いている方向に進む
         moveDirection = orientation.forward * VerticalInput + orientation.right * HorizontalInput;
-        
+
         if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
@@ -85,10 +82,8 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
     }
 
-
     private void SpeedControl()
     {
-        //プレイヤーのスピードを制限
         Vector3 flatVel = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
         if (flatVel.magnitude > moveSpeed)
@@ -101,12 +96,38 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
         rb.AddForce(transform.up * JumpForce, ForceMode.Impulse);
     }
 
     private void resetJump()
     {
         ReadyToJump = true;
+    }
+
+    // --- ここから移植機能 ---
+
+    public void SpeedBoost()
+    {
+        if (!isSpeedBoosted)
+        {
+            isSpeedBoosted = true;
+            moveSpeed = baseSpeed * 1.5f; // 50%アップ
+            Invoke(nameof(ResetSpeed), boostDuration);
+        }
+    }
+
+    private void ResetSpeed()
+    {
+        moveSpeed = baseSpeed;
+        isSpeedBoosted = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("SpeedBoost"))
+        {
+            SpeedBoost();
+            Destroy(other.gameObject);
+        }
     }
 }
