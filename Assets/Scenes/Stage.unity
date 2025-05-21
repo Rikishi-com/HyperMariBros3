@@ -3302,7 +3302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7822567700055962815, guid: 9ea7608f77cd74b20986274efaf156fd, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 7822567700055962815, guid: 9ea7608f77cd74b20986274efaf156fd, type: 3}
       propertyPath: m_LocalScale.y
@@ -8534,7 +8534,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 07ba831f488db4c439d7b70794d0a794, type: 3}
       propertyPath: m_Name
-      value: Arrow_symbol_01
+      value: SppedItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 07ba831f488db4c439d7b70794d0a794, type: 3}
+      propertyPath: m_TagString
+      value: SpeedBoost
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07ba831f488db4c439d7b70794d0a794, type: 3}
@@ -8707,6 +8711,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c56c3bc5a57714ea48ae495913d39480, type: 3}
+--- !u!1 &1746550939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 07ba831f488db4c439d7b70794d0a794, type: 3}
+  m_PrefabInstance: {fileID: 1715789126}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1746550940
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746550939}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5500001
+  m_Height: 0.12
+  m_Direction: 1
+  m_Center: {x: 1.5881868e-22, y: 0, z: 0.00000002980233}
 --- !u!1001 &1831444798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9434,7 +9457,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6965245792004404172, guid: d881284721cb546e6b0caabeeba9acb6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6965245792004404172, guid: d881284721cb546e6b0caabeeba9acb6, type: 3}
       propertyPath: m_LocalPosition.x
