@@ -45,7 +45,7 @@ private void OnTriggerEnter(Collider other)
         goalReached = true;
         isTiming = false;
         timeText.text = "Goal! Time: " + elapsedTime.ToString("F2") + "s";
-        goalMessageText.text = "ゴールおめでとう！";
+        goalMessageText.text = "GOAL!!!";
 
         if (elapsedTime < bestTime)
         {

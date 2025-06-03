@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         ReadyToJump = true;
